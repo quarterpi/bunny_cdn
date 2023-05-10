@@ -1,5 +1,6 @@
 defmodule BunnyCDN.HTTPClient.Req do
-  @mdouledoc """
+  @moduledoc """
+  The default http client. It uses the [Req](https://hexdocs.pm/req/readme.html) package to make the http requests.
   """
 
   @behaviour BunnyCDN.HTTPClient

@@ -1,12 +1,13 @@
 defmodule BunnyCDN.Request do
   @moduledoc """
-
+  Low level API for building requests. You usually won't need to use this. If you do need to use it, note that you will need to set the `Access_Key` headers yourself.
   """
 
   alias BunnyCDN.Client
 
   @doc """
   """
+  @spec request(Client.t(), atom(), String.t(), binary() | nil, []) :: {:ok, binary(), term()} | {:error, term()}
   def request(%Client{} = client, method, uri, body \\ nil, headers \\ []) do
     url =
       client
@@ -20,7 +21,7 @@ defmodule BunnyCDN.Request do
 
     with {:ok, resp} <-
       Client.request(client, method, url, body, headers) do
-      {:ok, body, resp}
+      {:ok, resp.body, resp}
     else
       error = {:error, _reason} ->
         error

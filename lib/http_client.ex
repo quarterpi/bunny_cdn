@@ -22,7 +22,7 @@ defmodule BunnyCDN.HTTPClient do
     headers :: [{header_name :: String.t(), header_value :: String.t()}] | [] | nil,
     options :: keyword()
   ) ::
-  {:ok, term()}
+  {:ok, binary(), term()}
   | {:error, term()}
 
 end
