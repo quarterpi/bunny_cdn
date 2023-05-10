@@ -16,13 +16,12 @@ defmodule BunnyCDN.HTTPClient do
   - `headers` already contains required headers such as the Authorization headers.
   """
   @callback request(
-    method :: :get | :post | :head | :patch | :delete | :options | :put | String.t(),
-    url :: String.t() | URI.t(),
-    body :: iodata() | nil,
-    headers :: [{header_name :: String.t(), header_value :: String.t()}] | [] | nil,
-    options :: keyword()
-  ) ::
-  {:ok, binary(), term()}
-  | {:error, term()}
-
+              method :: :get | :post | :head | :patch | :delete | :options | :put | String.t(),
+              url :: String.t() | URI.t(),
+              body :: iodata() | nil,
+              headers :: [{header_name :: String.t(), header_value :: String.t()}] | [] | nil,
+              options :: keyword()
+            ) ::
+              {:ok, binary(), term()}
+              | {:error, term()}
 end

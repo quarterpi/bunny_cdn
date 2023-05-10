@@ -21,10 +21,12 @@ defmodule BunnyCDN do
   """
   @doc since: "0.1.0"
   @spec put(Client.t(), Sting.t(), String.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}
-  def put(%Client{} = client, file, path, name) when is_binary(file) and is_binary(path) and is_binary(name) do
+  def put(%Client{} = client, file, path, name)
+      when is_binary(file) and is_binary(path) and is_binary(name) do
     uri = "#{path}/#{name}"
+
     with {:ok, %{status: 201} = resp} <-
-      Request.request(client, :put, uri, file) do
+           Request.request(client, :put, uri, file) do
       {:ok, resp}
     else
       {:ok, %{status: 400} = resp} -> {:error, resp}
@@ -46,7 +48,7 @@ defmodule BunnyCDN do
   @spec put(Client.t(), Sting.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}
   def put(%Client{} = client, file, uri) when is_binary(file) and is_binary(uri) do
     with {:ok, %{status: 201} = resp} <-
-      Request.request(client, :put, uri, file) do
+           Request.request(client, :put, uri, file) do
       {:ok, resp}
     else
       {:error, :enoent} -> {:error, :file_not_found}
@@ -69,7 +71,7 @@ defmodule BunnyCDN do
   @spec get(Client.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}
   def get(%Client{} = client, uri) when is_binary(uri) do
     with {:ok, %{status: 200} = resp} <-
-      Request.request(client, :get, uri) do
+           Request.request(client, :get, uri) do
       {:ok, resp}
     else
       {:ok, %{status: 500} = resp} -> {:error, resp}
@@ -95,7 +97,7 @@ defmodule BunnyCDN do
   @spec delete(Client.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}
   def delete(%Client{} = client, uri) when is_binary(uri) do
     with {:ok, %{status: 200} = resp} <-
-      Request.request(client, :delete, uri) do
+           Request.request(client, :delete, uri) do
       {:ok, resp}
     else
       {:ok, %{status: 500} = resp} -> {:error, resp}
@@ -103,5 +105,4 @@ defmodule BunnyCDN do
       error -> error
     end
   end
-
 end

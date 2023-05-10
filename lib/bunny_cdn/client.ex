@@ -16,23 +16,21 @@ defmodule BunnyCDN.Client do
   """
   @doc since: "v0.1.0"
 
-  defstruct [
-    storage_endpoint: nil,
-    storage_zone: nil,
-    storage_api_key: nil,
-    http_client: {BunnyCDN.HTTPClient.Req, []},
-  ]
+  defstruct storage_endpoint: nil,
+            storage_zone: nil,
+            storage_api_key: nil,
+            http_client: {BunnyCDN.HTTPClient.Req, []}
 
-  @bunny_default_endpoint  "BUNNY_DEFAULT_ENDPOINT"
-  @bunny_storage_zone  "BUNNY_STORAGE_ZONE"
-  @bunny_storage_api_key  "BUNNY_STORAGE_API_KEY"
+  @bunny_default_endpoint "BUNNY_DEFAULT_ENDPOINT"
+  @bunny_storage_zone "BUNNY_STORAGE_ZONE"
+  @bunny_storage_api_key "BUNNY_STORAGE_API_KEY"
 
   @type t :: %__MODULE__{
-    storage_endpoint: binary() | nil,
-    storage_zone: binary() | nil,
-    storage_api_key: binary() | nil,
-    http_client: {module(), keyword()}
-  }
+          storage_endpoint: binary() | nil,
+          storage_zone: binary() | nil,
+          storage_api_key: binary() | nil,
+          http_client: {module(), keyword()}
+        }
 
   def new!() do
     case System.get_env(@bunny_default_endpoint) do

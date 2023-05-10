@@ -7,10 +7,11 @@ defmodule BunnyCDN.HTTPClient.Req do
 
   @impl BunnyCDN.HTTPClient
   def request(method, url, body, headers, options) do
-    req = Req.new(method: method, url: url, body: body, headers: headers)
-          |> Req.Request.register_options(options)
-    with {:ok, %{status: 200} = resp} <- Req.Request.run(req)
-            do
+    req =
+      Req.new(method: method, url: url, body: body, headers: headers)
+      |> Req.Request.register_options(options)
+
+    with {:ok, %{status: 200} = resp} <- Req.Request.run(req) do
       {:ok, resp}
     else
       {:ok, %{status: 500} = resp} -> {:error, resp}
@@ -19,4 +20,3 @@ defmodule BunnyCDN.HTTPClient.Req do
     end
   end
 end
-

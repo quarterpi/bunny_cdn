@@ -7,20 +7,20 @@ defmodule BunnyCDN.Request do
 
   @doc """
   """
-  @spec request(Client.t(), atom(), String.t(), binary() | nil, []) :: {:ok, binary(), term()} | {:error, term()}
+  @spec request(Client.t(), atom(), String.t(), binary() | nil, []) ::
+          {:ok, binary(), term()} | {:error, term()}
   def request(%Client{} = client, method, uri, body \\ nil, headers \\ []) do
     url =
       client
       |> build_url(uri)
 
-    headers =
-      [
-        access_key(client)
-        | headers
-      ]
+    headers = [
+      access_key(client)
+      | headers
+    ]
 
     with {:ok, resp} <-
-      Client.request(client, method, url, body, headers) do
+           Client.request(client, method, url, body, headers) do
       {:ok, resp.body, resp}
     else
       error = {:error, _reason} ->
