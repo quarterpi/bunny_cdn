@@ -7,9 +7,9 @@ defmodule BunnyCDN.Request do
 
   @doc """
   """
-  @spec request(Client.t(), atom(), String.t(), binary() | nil, []) ::
+  @spec request(Client.t(), atom(), String.t(), binary() | nil, [], []) ::
           {:ok, binary(), term()} | {:error, term()}
-  def request(%Client{} = client, method, uri, body \\ nil, headers \\ []) do
+  def request(%Client{} = client, method, uri, body \\ nil, headers \\ [], options \\ []) do
     url =
       client
       |> build_url(uri)
@@ -20,9 +20,12 @@ defmodule BunnyCDN.Request do
     ]
 
     with {:ok, resp} <-
-           Client.request(client, method, url, body, headers) do
+           Client.request(client, method, url, body, headers, options) do
       {:ok, resp.body, resp}
     else
+      {:error, %{status: status, body: body} = resp} ->
+        {:error, body, resp}
+
       error = {:error, _reason} ->
         error
     end

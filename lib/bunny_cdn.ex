@@ -13,11 +13,8 @@ defmodule BunnyCDN do
 
   ## Examples
       client = Client.new("storage.bunnycdn.com", "my-sample-bunny-storage", "Sup3rsecretAPIkEy")
-      BunnyCDN.put("./sample.mp3", "audio", "sample.mp3")
-      {:ok, %Finch.Response{status: 201}}
-
-      iex> BunnyCDN.put("./unavailable.mp4", "video", "unavailable.mp4")
-      {:error, :file_not_found}
+      BunnyCDN.put(client, "./sample.mp3", "audio", "sample.mp3")
+      {:ok, %{"HttpCode" => 201, "Message" => "File uploaded."}, %{status: 201}}
   """
   @doc since: "0.1.0"
   @spec put(Client.t(), Sting.t(), String.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}
@@ -25,11 +22,11 @@ defmodule BunnyCDN do
       when is_binary(file) and is_binary(path) and is_binary(name) do
     uri = "#{path}/#{name}"
 
-    with {:ok, %{status: 201} = resp} <-
+    with {:ok, body, %{status: 201} = resp} <-
            Request.request(client, :put, uri, file) do
-      {:ok, resp}
+      {:ok, body, resp}
     else
-      {:ok, %{status: 400} = resp} -> {:error, resp}
+      {:ok, body, resp} -> {:error, body, resp}
       error -> error
     end
   end
@@ -38,34 +35,35 @@ defmodule BunnyCDN do
   Put files into the storage zone at the root level.
 
   ## Examples
-      BunnyCDN.put("./sample.mp3", "sample.mp3")
-      {:ok, %Finch.Response{status: 201}}
-
-      iex> BunnyCDN.put("./unavailable.mp4", "unavailable.mp4")
-      {:error, :file_not_found}
+      client = Client.new("storage.bunnycdn.com", "my-sample-bunny-storage", "Sup3rsecretAPIkEy")
+      BunnyCDN.put(client, "./sample.mp3", "audio/sample.mp3")
+      {:ok, %{"HttpCode" => 201, "Message" => "File uploaded."}, %{status: 201}}
   """
   @doc since: "0.1.0"
   @spec put(Client.t(), Sting.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}
   def put(%Client{} = client, file, uri) when is_binary(file) and is_binary(uri) do
-    with {:ok, %{status: 201} = resp} <-
+    with {:ok, body, %{status: 201} = resp} <-
            Request.request(client, :put, uri, file) do
-      {:ok, resp}
+      {:ok, body, resp}
     else
-      {:error, :enoent} -> {:error, :file_not_found}
-      {:ok, %{status: 400} = resp} -> {:error, resp}
+      {:ok, body, resp} -> {:error, body, resp}
       error -> error
     end
   end
 
   @doc """
-  Get file from storage.
+  List or get file from storage.
 
   ## Examples
-      BunnyCDN.get("audio/sample.mp3")
-      {:ok, %Finch.Response{status: 200}}
+      client = Client.new("storage.bunnycdn.com", "my-sample-bunny-storage", "Sup3rsecretAPIkEy")
+      BunnyCDN.get(client, "foobar/")
+      {:ok, [], %{status: 200}}
+
+      BunnyCDN.get(client, "audio/")
+      {:ok, [%{"Path" => "my-sample-bunny-storage/audio/"}], %{status: 200}}
 
       BunnyCDN.get("audio/unknown.mp3")
-      {:error, %Finch.Response{status: 404}}
+      {:error, %{"HttpCode" => 404, "Message" => "Object Not Found"}, %{status: 404}}
   """
   @doc since: "0.1.0"
   @spec get(Client.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}
@@ -74,24 +72,28 @@ defmodule BunnyCDN do
            Request.request(client, :get, uri) do
       {:ok, resp}
     else
-      {:ok, %{status: 500} = resp} -> {:error, resp}
-      {:ok, %{status: 404} = resp} -> {:error, resp}
+      {:ok, body, %{status: 500} = resp} -> {:error, body, resp}
+      {:ok, body, %{status: 404} = resp} -> {:error, body, resp}
       error -> error
     end
   end
 
   @doc """
-  Delete file at path from storage.
+  Delete directory or file at path from storage.
 
   ## Examples
-      BunnyCDN.get("sample.mp3")
-      {:ok, %Finch.Response{status: 200}}
+      client = Client.new("storage.bunnycdn.com", "my-sample-bunny-storage", "Sup3rsecretAPIkEy")
+      BunnyCDN.delete(client, "test/")
+      {:ok, %{"HttpCode" => 200, "Message" => "Directory deleted successfuly."}, %{status: 200}}
 
-      BunnyCDN.get("audio/sample.mp3")
-      {:ok, %Finch.Response{status: 200}}
+      BunnyCDN.delete(client, "sample.mp3")
+      {:ok, %{"HttpCode" => 200, "Message" => "File deleted successfuly."}, %{status: 200}}
 
-      BunnyCDN.get("audio/unknown.mp3")
-      {:error, %Finch.Response{status: 404}}
+      BunnyCDN.delete(client, "audio/sample.mp3")
+      {:ok, %{"HttpCode" => 200, "Message" => "File deleted successfuly."}, %{status: 200}}
+
+      BunnyCDN.delete(client, "audio/unknown.mp3")
+      {:error, %{status: 404}}
   """
   @doc since: "0.1.0"
   @spec delete(Client.t(), String.t()) :: {:ok, term()} | {:error, Error.t()}

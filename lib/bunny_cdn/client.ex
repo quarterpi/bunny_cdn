@@ -59,8 +59,8 @@ defmodule BunnyCDN.Client do
     %{client | http_client: http_client}
   end
 
-  def request(client, method, url, body, headers) do
-    {module, options} = Map.get(client, :http_client)
+  def request(client, method, url, body, headers, _opts \\ []) do
+    {module, options} = Map.fetch!(client, :http_client)
     apply(module, :request, [method, url, body, headers, options])
   end
 end

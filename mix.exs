@@ -40,7 +40,8 @@ defmodule BunnyCDN.MixProject do
   defp deps do
     [
       {:req, "~> 0.3"},
-      {:ex_doc, "~> 0.27", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.27", only: :dev, runtime: false},
+      {:bypass, "~> 2.1.0", only: :test}
     ]
   end
 end
