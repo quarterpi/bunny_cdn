@@ -30,7 +30,7 @@ iex -S mix
 
 ## Examples
 If you load the storage endpoint, storage zone, and storage api keys as environment variables as demonstrated above, you can use the BunnyCDN.Client.new!/0 function to create a new client struct.
-```
+```elixir
 alias BunnyCDN.Client
 
 client = Client.new!()

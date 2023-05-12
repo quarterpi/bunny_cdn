@@ -5,7 +5,7 @@ defmodule BunnyCDN.HTTPClient.TestClient do
   def request(method, url, body, headers, options) do
     send(self(), {:request, method, url, body, headers, options})
 
-    if (method == :put) do
+    if method == :put do
       {status, _opts} = Keyword.pop(options, :return_status, 201)
 
       {:ok, %{status: status, headers: [], body: ""}}
