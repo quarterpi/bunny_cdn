@@ -12,7 +12,8 @@ defmodule BunnyCDN.MixProject do
       start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
   end
 
@@ -44,6 +45,15 @@ defmodule BunnyCDN.MixProject do
       {:req, "~> 0.3"},
       {:ex_doc, "~> 0.27", only: :dev, runtime: false},
       {:bypass, "~> 2.1.0", only: :test}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      source_url: @source_url,
+      source_ref: "v#{@version}",
+      extras: ["README.md"]
     ]
   end
 end
