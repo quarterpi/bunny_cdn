@@ -34,7 +34,7 @@ defmodule BunnyCDN.MixProject do
     [
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Matthew Moody"],
-      license: ["MIT"],
+      licenses: ["MIT"],
       links: %{"GitHub" => @source_url}
     ]
   end
