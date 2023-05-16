@@ -1,4 +1,6 @@
 defmodule BunnyCDN.HTTPClient.TestClient do
+  @moduledoc false
+
   @behaviour BunnyCDN.HTTPClient
 
   @impl true
