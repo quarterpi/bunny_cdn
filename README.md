@@ -7,12 +7,12 @@ BunnyCDN is a simple batteries included HTTP client for the BunnyCDN Storage API
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `bunny_client` to your list of dependencies in `mix.exs`:
+by adding `bunny_cdn` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:bunny_client, "~> 0.1.0"}
+    {:bunny_cdn, "~> 0.1.0"}
   ]
 end
 ```
@@ -65,5 +65,5 @@ BunnyCDN is inspired by [aws-elixir](https://github.com/aws-beam/aws-elixir/tree
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/bunny_client>.
+be found at <https://hexdocs.pm/bunny_cdn>.
 
