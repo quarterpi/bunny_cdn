@@ -1,10 +1,13 @@
 defmodule BunnyCDN.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+  @source_url "https://github.com/quarterpi/bunny_cdn"
+
   def project do
     [
       app: :bunny_cdn,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description: description(),
@@ -16,7 +19,6 @@ defmodule BunnyCDN.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      #      mod: {BunnyCND.Application, []},
       extra_applications: [:logger]
     ]
   end
@@ -32,7 +34,7 @@ defmodule BunnyCDN.MixProject do
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       maintainers: ["Matthew Moody"],
       license: ["MIT"],
-      links: %{"GitHub" => "https://github.com/quarterpi/bunny_cdn"}
+      links: %{"GitHub" => @source_url}
     ]
   end
 
