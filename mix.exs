@@ -32,7 +32,7 @@ defmodule BunnyCDN.MixProject do
 
   defp package do
     [
-      files: ["lib", "mix.exs", "README*", "LICENSE*"],
+      files: ["lib/**/*.ex", "mix.exs", "README.md", "LICENSE.md"],
       maintainers: ["Matthew Moody"],
       licenses: ["MIT"],
       links: %{"GitHub" => @source_url}
